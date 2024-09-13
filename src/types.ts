@@ -5,6 +5,7 @@ interface IUCNredlistOptions {
 
 interface IUCNredlistFetch {
   resource: string;
+  format?: "JSON" | "FLAT_JSON" | "CSV";
   params?:
     | SISParams
     | ScientificNameParams

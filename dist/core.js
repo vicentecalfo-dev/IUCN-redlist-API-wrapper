@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.IUCNredlist = void 0;
+const safe_flat_1 = require("safe-flat");
+const json_2_csv_1 = require("json-2-csv");
+const fs_extra_1 = require("fs-extra");
 class IUCNredlist {
     headers = {
         Authorization: "",
@@ -19,7 +22,7 @@ class IUCNredlist {
             headers: this.headers,
         });
     }
-    async get({ resource, params }) {
+    async get({ resource, params, format = "JSON" }) {
         const slugs = resource.split("/");
         resource = slugs[0];
         if (slugs[1])
@@ -42,8 +45,23 @@ class IUCNredlist {
         });
         const path = `${resource}`;
         try {
-            const result = await this.apiFetch({ resource: path, params });
-            return result.json();
+            const result = await (await this.apiFetch({ resource: path, params })).json();
+            const formatter = {
+                JSON: () => result,
+                FLAT_JSON: () => (0, safe_flat_1.flatten)(result),
+                CSV: () => {
+                    const flatResults = formatter.FLAT_JSON();
+                    let resultArray = flatResults;
+                    if (!Array.isArray(result))
+                        resultArray = [resultArray];
+                    const output = (0, json_2_csv_1.json2csv)(resultArray, {
+                        escapeHeaderNestedDots: false,
+                    });
+                    (0, fs_extra_1.outputFileSync)(`./teste/${path}.csv`, output);
+                    return output;
+                },
+            };
+            return formatter[format]();
         }
         catch (error) {
             return error;

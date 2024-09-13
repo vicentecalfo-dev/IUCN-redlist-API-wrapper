@@ -1,3 +1,5 @@
+import { flatten } from "safe-flat";
+import { json2csv } from "json-2-csv";
 import { IUCNredlistFetch, IUCNredlistOptions } from "./types";
 
 class IUCNredlist {
@@ -22,7 +24,7 @@ class IUCNredlist {
     });
   }
 
-  public async get({ resource, params }: IUCNredlistFetch) {
+  public async get({ resource, params, format = "JSON" }: IUCNredlistFetch) {
     const slugs = resource.split("/");
     resource = slugs[0];
     if (slugs[1]) resource = `${resource}/${slugs[1]}`;
@@ -44,8 +46,23 @@ class IUCNredlist {
     });
     const path = `${resource}`;
     try {
-      const result = await this.apiFetch({ resource: path, params });
-      return result.json();
+      const result = await (
+        await this.apiFetch({ resource: path, params })
+      ).json();
+      const formatter = {
+        JSON: () => result,
+        FLAT_JSON: () => flatten(result),
+        CSV: () => {
+          const flatResults = formatter.FLAT_JSON();
+          let resultArray = flatResults;
+          if (!Array.isArray(result)) resultArray = [resultArray];
+          const output = json2csv(resultArray as any, {
+            escapeHeaderNestedDots: false,
+          });
+          return output;
+        },
+      };
+      return formatter[format]();
     } catch (error: any) {
       return error;
     }

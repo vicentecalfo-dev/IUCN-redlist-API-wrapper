@@ -8,7 +8,7 @@ declare class IUCNredlist {
     url: string;
     constructor(options: IUCNredlistOptions);
     private apiFetch;
-    get({ resource, params }: IUCNredlistFetch): Promise<any>;
+    get({ resource, params, format }: IUCNredlistFetch): Promise<any>;
 }
 export { IUCNredlist, IUCNredlistOptions };
 //# sourceMappingURL=core.d.ts.map

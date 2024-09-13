@@ -52,6 +52,8 @@ const api = new core_1.IUCNredlist({ token });
         });
         (0, globals_1.expect)(assessments[0].sis_taxon_id).toBe(48153954);
     });
+});
+(0, globals_1.describe)("Other Resources", () => {
     (0, globals_1.test)("Assessment by ID", async () => {
         const assessment = await api.get({
             resource: "assessment",
@@ -66,6 +68,15 @@ const api = new core_1.IUCNredlist({ token });
             resource: "biogeographical_realms",
         });
         (0, globals_1.expect)(biogeographical_realms[0].code).toBe("0");
+    });
+    (0, globals_1.test)("Conservation Actions", async () => {
+        const { conservation_action } = await api.get({
+            resource: "conservation_actions",
+            params: {
+                code: "1",
+            },
+        });
+        (0, globals_1.expect)(conservation_action.code).toBe("1");
     });
 });
 //# sourceMappingURL=core.test.js.map

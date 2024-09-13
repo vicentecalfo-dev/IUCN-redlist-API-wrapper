@@ -56,7 +56,9 @@ describe("Taxa Resources", () => {
     });
     expect(assessments[0].sis_taxon_id).toBe(48153954);
   });
+});
 
+describe("Other Resources", () => {
   test("Assessment by ID", async () => {
     const assessment = await api.get({
       resource: "assessment",
@@ -72,5 +74,15 @@ describe("Taxa Resources", () => {
       resource: "biogeographical_realms",
     });
     expect(biogeographical_realms[0].code).toBe("0");
+  });
+
+  test("Conservation Actions", async () => {
+    const { conservation_action } = await api.get({
+      resource: "conservation_actions",
+      params: {
+        code: "1",
+      },
+    });
+    expect(conservation_action.code).toBe("1");
   });
 });

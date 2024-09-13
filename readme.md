@@ -119,6 +119,53 @@ const assessment = await api.get({
 });
 ```
 
+## Output Formatting
+
+The IUCN Redlist API allows you to customize the format of the response by using the `format` parameter. This can be particularly useful when you want to process or save the data in different formats. Below are the supported options:
+
+### Format Options
+
+#### 1. CSV
+By setting the `format` parameter to `"CSV"`, the API response will be formatted as comma-separated values (CSV). This is useful when you intend to save the data directly to a CSV file for further processing or use in spreadsheet applications.
+
+**Example:**
+
+```typescript
+const { biogeographical_realms } = await api.get({
+  resource: "biogeographical_realms",
+  format: "CSV"
+});
+```
+In this example, the response will be pre-formatted as CSV, making it easy to save the data to a file.
+
+#### 2. FLAT_JSON
+he format parameter can also be set to "FLAT_JSON" to return the data in a flattened JSON structure. When using this option, all nested attributes will be concatenated using dots (.). This is helpful for simplifying nested data and using it in contexts where a flat structure is preferred.
+
+```typescript
+const { biogeographical_realms } = await api.get({
+  resource: "biogeographical_realms",
+  format: "FLAT_JSON"
+});
+```
+
+In this case, any nested attributes in the response will be flattened, and their keys will be joined with a dot (.).
+
+#### 3. JSON (Default)
+If no format parameter is specified, the API response will default to a standard JSON structure. This is the default behavior and does not require explicit declaration. Nested attributes will be preserved in their original structure.
+
+```typescript
+const { biogeographical_realms } = await api.get({
+  resource: "biogeographical_realms"
+});
+ // or
+const { biogeographical_realms } = await api.get({
+  resource: "biogeographical_realms",
+  format: "JSON"
+});
+```
+In this case, the response will be returned as a standard JSON object without any additional formatting, exactly as provided by the API.
+
+
 ## Resources and Parameters
 
 All available resources and parameters for the IUCN Redlist API can be found in the official API documentation. For detailed information on how to use each endpoint and the parameters required, please refer to the following link:

@@ -4,6 +4,7 @@ interface IUCNredlistOptions {
 }
 interface IUCNredlistFetch {
     resource: string;
+    format?: "JSON" | "FLAT_JSON" | "CSV";
     params?: SISParams | ScientificNameParams | KingdomParams | PhylumParams | ClassParams | OrderParams | FamilyParams | BiogeographicalRealmParams | ComprehensiveGroupParams | ConservationActionsParams | CountriesParams | FAOParams | GrowthFormsParams | HabitatsParams | PopulationTrendsParams | RedListCategoriesParams | ResearchParams | ScopesParams | StressesParams | SystemsParams | UseAndTradeParams | ThreatsParams | AssessmentParams;
 }
 interface ScientificNameParams {
