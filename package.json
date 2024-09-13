@@ -1,6 +1,6 @@
 {
   "name": "@cncflora/iucn-redlist-api-wrapper",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "description": "This is test typescript project",
   "main": "dist/index.js",
   "license": "MIT",

@@ -13,84 +13,110 @@ npm install iucn-redlist-api-wrapper
 ```
 
 ## Usage
+
 ### Setup
 
 First, import the IUCNredlist class from the package:
 
 ```typescript
-import { IUCNredlist } from 'iucn-redlist-api-wrapper';
+import { IUCNredlist } from "iucn-redlist-api-wrapper";
 ```
+
 Create an instance of the IUCNredlist class with your API token:
 
 ```typescript
-const api = new IUCNredlist({ token: 'YOUR_API_TOKEN' });
+const api = new IUCNredlist({ token: "YOUR_API_TOKEN" });
 ```
 
 ### Making Requests
+
 You can use the taxa method to query various resources from the API. Below are some examples of how to use the package:
 
 #### 1. Query by SIS ID
+
 Fetch data using a SIS ID:
 
 ```typescript
-const result = await api.taxa({
-  resource: 'sis',
-  params: { sis_id: 172817975 }
+const { taxon } = await api.get({
+  resource: "taxa/sis",
+  params: { sis_id: 172817975 },
 });
-const { taxon } = await result.json();
 ```
 
 #### 2. Query by Scientific Name
+
 Fetch data using scientific names:
 
 ```typescript
-const result = await api.taxa({
-  resource: 'scientific_name',
+const { taxon } = await api.get({
+  resource: "taxa/scientific_name",
   params: {
-    genus_name: 'Aegis',
-    species_name: 'luteocontexta'
-  }
+    genus_name: "Aegis",
+    species_name: "luteocontexta",
+  },
 });
-const { taxon } = await result.json();
 ```
 
 #### 3. Fetch Kingdom Names
+
 Retrieve a list of kingdom names:
 
 ```typescript
-const result = await api.taxa({
-  resource: 'kingdom'
+const { kingdom_names } = await api.get({
+  resource: "taxa/kingdom",
 });
-const { kingdom_names } = await result.json();
 ```
 
 #### 4. Query Kingdom by Name
+
 Fetch data for a specific kingdom:
 
 ```typescript
-const result = await api.taxa({
-  resource: 'kingdom',
+const { assessments } = await api.get({
+  resource: "taxa/kingdom",
   params: {
-    kingdom_name: 'ANIMALIA',
+    kingdom_name: "ANIMALIA",
     page: 1,
-    year_published: 2020
-  }
+    year_published: 2020,
+  },
 });
-const { assessments } = await result.json();
 ```
 
 #### 5. Query Family by Name
+
 Fetch data for a specific family:
 
 ```typescript
-const result = await api.taxa({
-  resource: 'family',
+const { assessments } = await api.get({
+  resource: "taxa/family",
   params: {
-    family_name: 'ACANTHACEAE',
-    year_published: 2020
-  }
+    family_name: "ACANTHACEAE",
+    year_published: 2020,
+  },
 });
-const { assessments } = await result.json();
+```
+
+#### 6. Biogeographical Realms
+
+Fetch Biogeographical Realms:
+
+```typescript
+const { biogeographical_realms } = await api.get({
+  resource: "biogeographical_realms",
+});
+```
+
+#### 7. Assessment by ID
+
+Fetch Assessment by ID:
+
+```typescript
+const assessment = await api.get({
+  resource: "assessment",
+  params: {
+    assessment_id: 172861292,
+  },
+});
 ```
 
 ## Resources and Parameters
@@ -106,6 +132,3 @@ This package is not an official product of the International Union for Conservat
 Even though you are using this package, it is crucial to give proper acknowledgment and citation to the IUCN Red List API. When using the API or any data obtained from it, please ensure to cite it correctly as follows:
 
 **Citation:** IUCN 2024. IUCN Red List of Threatened Species. Version 2024-1 <www.iucnredlist.org>.
-
-
-

@@ -22,7 +22,10 @@ class IUCNredlist {
     });
   }
 
-  public async taxa({ resource, params }: IUCNredlistFetch) {
+  public async get({ resource, params }: IUCNredlistFetch) {
+    const slugs = resource.split("/");
+    resource = slugs[0];
+    if (slugs[1]) resource = `${resource}/${slugs[1]}`;
     [
       "assessment_id",
       "sis_id",
@@ -39,9 +42,10 @@ class IUCNredlist {
         delete params[param];
       }
     });
-    const path = `taxa/${resource}`;
+    const path = `${resource}`;
     try {
-      return this.apiFetch({ resource: path, params });
+      const result = await this.apiFetch({ resource: path, params });
+      return result.json();
     } catch (error: any) {
       return error;
     }

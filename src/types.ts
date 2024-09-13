@@ -27,7 +27,8 @@ interface IUCNredlistFetch {
     | StressesParams
     | SystemsParams
     | UseAndTradeParams
-    | ThreatsParams;
+    | ThreatsParams
+    | AssessmentParams;
 }
 
 interface ScientificNameParams {
@@ -194,6 +195,10 @@ interface UseAndTradeParams {
   year_published?: number;
   latest?: boolean;
   scope_code?: number;
+}
+
+interface AssessmentParams {
+  assessment_id: number;
 }
 
 export { IUCNredlistOptions, IUCNredlistFetch };

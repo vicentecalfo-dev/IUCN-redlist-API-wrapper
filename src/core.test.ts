@@ -1,8 +1,8 @@
-import 'dotenv/config'
+import "dotenv/config";
 import { describe, expect, test } from "@jest/globals";
 import { IUCNredlist } from "./core";
-
-const api = new IUCNredlist({ token: process?.env?.TOKEN });
+const token = process.env.TOKEN ? process.env.TOKEN : "";
+const api = new IUCNredlist({ token });
 
 describe("Taxa Resources", () => {
   const sis_id = 172817975;
@@ -12,53 +12,65 @@ describe("Taxa Resources", () => {
   };
 
   test("SIS Id", async () => {
-    const result = await api.taxa({
-      resource: "sis",
+    const { taxon } = await api.get({
+      resource: "taxa/sis",
       params: { sis_id },
     });
-    const { taxon } = await result.json();
     expect(taxon.sis_id).toBe(sis_id);
   });
 
   test("Scientific Name", async () => {
-    const result = await api.taxa({
-      resource: "scientific_name",
+    const { taxon } = await api.get({
+      resource: "taxa/scientific_name",
       params: scientific_name,
     });
-    const { taxon } = await result.json();
     expect(taxon.sis_id).toBe(sis_id);
   });
 
   test("Kingdom Names", async () => {
-    const result = await api.taxa({
-      resource: "kingdom",
+    const { kingdom_names } = await api.get({
+      resource: "taxa/kingdom",
     });
-    const { kingdom_names } = await result.json();
     expect(kingdom_names[0]).toBe("ANIMALIA");
   });
 
   test("Kingdom Name", async () => {
-    const result = await api.taxa({
-      resource: "kingdom",
+    const { assessments } = await api.get({
+      resource: "taxa/kingdom",
       params: {
         kingdom_name: "ANIMALIA",
         page: 1,
         year_published: 2020,
       },
     });
-    const { assessments } = await result.json();
     expect(assessments[0].sis_taxon_id).toBe(10030);
   });
 
   test("Family Name", async () => {
-    const result = await api.taxa({
-      resource: "family",
+    const { assessments } = await api.get({
+      resource: "taxa/family",
       params: {
         family_name: "ACANTHACEAE",
         year_published: 2020,
       },
     });
-    const { assessments } = await result.json();
     expect(assessments[0].sis_taxon_id).toBe(48153954);
+  });
+
+  test("Assessment by ID", async () => {
+    const assessment = await api.get({
+      resource: "assessment",
+      params: {
+        assessment_id: 172861292,
+      },
+    });
+    expect(assessment.assessment_id).toBe(172861292);
+  });
+
+  test("Biogeographical Realms", async () => {
+    const { biogeographical_realms } = await api.get({
+      resource: "biogeographical_realms",
+    });
+    expect(biogeographical_realms[0].code).toBe("0");
   });
 });
