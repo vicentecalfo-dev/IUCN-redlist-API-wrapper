@@ -128,8 +128,6 @@ The IUCN Redlist API allows you to customize the format of the response by using
 #### 1. CSV
 By setting the `format` parameter to `"CSV"`, the API response will be formatted as comma-separated values (CSV). This is useful when you intend to save the data directly to a CSV file for further processing or use in spreadsheet applications.
 
-**Example:**
-
 ```typescript
 const { biogeographical_realms } = await api.get({
   resource: "biogeographical_realms",

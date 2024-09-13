@@ -1,8 +1,9 @@
 {
   "name": "@cncflora/iucn-redlist-api-wrapper",
-  "version": "0.0.3",
-  "description": "This is test typescript project",
+  "version": "0.0.4",
+  "description": "The iucn-redlist-api-wrapper is a TypeScript package that provides a convenient interface for interacting with the IUCN Redlist API. This package allows you to fetch data about taxa, including details by SIS ID, scientific name, and more.",
   "main": "dist/index.js",
+  "author": "Vicente Calfo <vicentecalfo.dev@gmail.com>",
   "license": "MIT",
   "private": false,
   "files": [
@@ -23,9 +24,15 @@
     "build": "tsc",
     "prepublishOnly": "npm run build"
   },
-  "author": "Vicente Calfo",
   "dependencies": {
     "json-2-csv": "^5.5.5",
     "safe-flat": "^2.1.0"
-  }
+  },
+  "keywords": [
+    "IUCN", 
+    "API",
+    "IUCN Red List",
+    "Conservation",
+    "Biodiversity"
+  ]
 }
